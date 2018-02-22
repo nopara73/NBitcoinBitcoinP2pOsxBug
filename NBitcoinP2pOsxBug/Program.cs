@@ -50,16 +50,12 @@ namespace NBitcoinP2pOsxBug
                     if (nodes.ConnectedNodes.Count >= 1)
                     {
                         Console.WriteLine("SUCCESSFULLY FOUND A CONNECTION");
-                        Console.WriteLine("Press a key to exit...");
-                        Console.ReadKey();
                         return;
                     }
                     Task.Delay(TimeSpan.FromSeconds(10)).GetAwaiter().GetResult();
                     i++;
                 }
                 Console.WriteLine("DID NOT FIND A CONNECTION");
-                Console.WriteLine("Press a key to exit...");
-                Console.ReadKey();
             }
             finally
             {
