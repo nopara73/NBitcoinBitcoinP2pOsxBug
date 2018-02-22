@@ -12,4 +12,4 @@ matrix:
     - os: osx
 
 script:
-  - dotnet run NBitcoinBitcoinP2pOsxBug/NBitcoinBitcoinP2pOsxBug.csproj
+  - dotnet run
