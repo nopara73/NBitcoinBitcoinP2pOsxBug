@@ -7,7 +7,10 @@ notifications:
 
 matrix:
   include:   
+    - os: linux
+      dist: trusty   
     - os: osx
 
 script:
-  - dotnet run NBitcoinBitcoinP2pOsxBug/NBitcoinBitcoinP2pOsxBug.csproj
+  - cd NBitcoinP2pOsxBug
+  - dotnet run
