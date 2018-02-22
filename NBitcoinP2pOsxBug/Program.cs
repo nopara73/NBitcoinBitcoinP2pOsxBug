@@ -33,10 +33,7 @@ namespace NBitcoinP2pOsxBug
                 {
                     RequiredServices = NodeServices.Network,
                     MinVersion = ProtocolVersion.SENDHEADERS_VERSION
-                })
-            {
-                NodeConnectionParameters = connectionParameters
-            };
+                });
 
             Console.WriteLine("Start connecting to nodes...");
             nodes.Connect();
