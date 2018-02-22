@@ -3,6 +3,7 @@ using NBitcoin.Protocol;
 using NBitcoin.Protocol.Behaviors;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NBitcoinP2pOsxBug
@@ -37,6 +38,32 @@ namespace NBitcoinP2pOsxBug
 
             Console.WriteLine("Start connecting to nodes...");
             nodes.Connect();
+
+            Console.WriteLine();
+            Console.WriteLine($"{nameof(connectionParameters)}.{nameof(connectionParameters.AddressFrom)}: {connectionParameters.AddressFrom}");
+            Console.WriteLine($"{nameof(connectionParameters)}.{nameof(connectionParameters.IsRelay)}: {connectionParameters.IsRelay}");
+            Console.WriteLine($"{nameof(connectionParameters)}.{nameof(connectionParameters.PreferredTransactionOptions)}: {connectionParameters.PreferredTransactionOptions}");
+            Console.WriteLine($"{nameof(connectionParameters)}.{nameof(connectionParameters.ReceiveBufferSize)}: {connectionParameters.ReceiveBufferSize}");
+            Console.WriteLine($"{nameof(connectionParameters)}.{nameof(connectionParameters.ReuseBuffer)}: {connectionParameters.ReuseBuffer}");
+            Console.WriteLine($"{nameof(connectionParameters)}.{nameof(connectionParameters.SendBufferSize)}: {connectionParameters.SendBufferSize}");
+            Console.WriteLine($"{nameof(connectionParameters)}.{nameof(connectionParameters.Services)}: {connectionParameters.Services}");
+            Console.WriteLine($"{nameof(connectionParameters)}.{nameof(connectionParameters.TemplateBehaviors)}.Count(): {connectionParameters.TemplateBehaviors.Count()}");
+            Console.WriteLine($"{nameof(connectionParameters)}.{nameof(connectionParameters.UserAgent)}: {connectionParameters.UserAgent}");
+            Console.WriteLine($"{nameof(connectionParameters)}.{nameof(connectionParameters.Version)}: {connectionParameters.Version}");
+            Console.WriteLine();
+
+            Console.WriteLine($"{nameof(addressManager)}.{nameof(addressManager.Count)}: {addressManager.Count}");
+            Console.WriteLine($"{nameof(addressManager)}.GetAddr().Count(): {addressManager.GetAddr().Count()}");
+            Console.WriteLine($"{nameof(addressManager)}.GetSerializedSize(): {addressManager.GetSerializedSize()}");
+            Console.WriteLine();
+
+            Console.WriteLine($"{nameof(nodes)}.{nameof(nodes.AllowSameGroup)}: {nodes.AllowSameGroup}");
+            Console.WriteLine($"{nameof(nodes)}.{nameof(nodes.ConnectedNodes)}.{nameof(nodes.ConnectedNodes.Count)}: {nodes.ConnectedNodes.Count}");
+            Console.WriteLine($"{nameof(nodes)}.{nameof(nodes.MaximumNodeConnection)}: {nodes.MaximumNodeConnection}");
+            Console.WriteLine($"{nameof(nodes)}.{nameof(nodes.Requirements)}.{nameof(nodes.Requirements.MinVersion)}: {nodes.Requirements.MinVersion}");
+            Console.WriteLine($"{nameof(nodes)}.{nameof(nodes.Requirements)}.{nameof(nodes.Requirements.RequiredServices)}: {nodes.Requirements.RequiredServices}");
+            Console.WriteLine($"{nameof(nodes)}.{nameof(nodes.Requirements)}.{nameof(nodes.Requirements.SupportSPV)}: {nodes.Requirements.SupportSPV}");
+            Console.WriteLine();
 
             try
             {
