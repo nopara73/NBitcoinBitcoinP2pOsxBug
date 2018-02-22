@@ -12,4 +12,5 @@ matrix:
     - os: osx
 
 script:
+  - cd NBitcoinP2pOsxBug
   - dotnet run
