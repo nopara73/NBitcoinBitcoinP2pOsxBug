@@ -1,0 +1,13 @@
+language: csharp
+mono: none
+dotnet: 2.0.0
+
+notifications:
+  email: false
+
+matrix:
+  include:   
+    - os: osx
+
+script:
+  - dotnet run NBitcoinBitcoinP2pOsxBug/NBitcoinBitcoinP2pOsxBug.csproj
