@@ -55,7 +55,7 @@ namespace NBitcoinP2pOsxBug
                     Task.Delay(TimeSpan.FromSeconds(10)).GetAwaiter().GetResult();
                     i++;
                 }
-                Console.WriteLine("DID NOT FIND A CONNECTION");
+                throw new TimeoutException($"DID NOT FIND A CONNECTION within {i / (double)6} minutes.");
             }
             finally
             {
