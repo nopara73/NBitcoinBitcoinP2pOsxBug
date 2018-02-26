@@ -33,7 +33,7 @@ namespace NBitcoinP2pOsxBug
                 new NodeRequirement
                 {
                     RequiredServices = NodeServices.Network,
-                    MinVersion = ProtocolVersion.WITNESS_VERSION
+                    MinVersion = ProtocolVersion.SENDHEADERS_VERSION
                 });
 
             Console.WriteLine("Start connecting to nodes...");
@@ -42,7 +42,6 @@ namespace NBitcoinP2pOsxBug
             Console.WriteLine();
             Console.WriteLine($"{nameof(connectionParameters)}.{nameof(connectionParameters.AddressFrom)}: {connectionParameters.AddressFrom}");
             Console.WriteLine($"{nameof(connectionParameters)}.{nameof(connectionParameters.IsRelay)}: {connectionParameters.IsRelay}");
-            Console.WriteLine($"{nameof(connectionParameters)}.{nameof(connectionParameters.PreferredTransactionOptions)}: {connectionParameters.PreferredTransactionOptions}");
             Console.WriteLine($"{nameof(connectionParameters)}.{nameof(connectionParameters.ReceiveBufferSize)}: {connectionParameters.ReceiveBufferSize}");
             Console.WriteLine($"{nameof(connectionParameters)}.{nameof(connectionParameters.ReuseBuffer)}: {connectionParameters.ReuseBuffer}");
             Console.WriteLine($"{nameof(connectionParameters)}.{nameof(connectionParameters.SendBufferSize)}: {connectionParameters.SendBufferSize}");
@@ -62,7 +61,6 @@ namespace NBitcoinP2pOsxBug
             Console.WriteLine($"{nameof(nodes)}.{nameof(nodes.MaximumNodeConnection)}: {nodes.MaximumNodeConnection}");
             Console.WriteLine($"{nameof(nodes)}.{nameof(nodes.Requirements)}.{nameof(nodes.Requirements.MinVersion)}: {nodes.Requirements.MinVersion}");
             Console.WriteLine($"{nameof(nodes)}.{nameof(nodes.Requirements)}.{nameof(nodes.Requirements.RequiredServices)}: {nodes.Requirements.RequiredServices}");
-            Console.WriteLine($"{nameof(nodes)}.{nameof(nodes.Requirements)}.{nameof(nodes.Requirements.SupportSPV)}: {nodes.Requirements.SupportSPV}");
             Console.WriteLine();
 
             try
