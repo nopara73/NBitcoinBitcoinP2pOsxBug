@@ -36,6 +36,9 @@ namespace NBitcoinP2pOsxBug
                     MinVersion = ProtocolVersion.WITNESS_VERSION
                 });
 
+            connectionParameters.ReceiveBufferSize = 1024;
+            connectionParameters.SendBufferSize = 1024;
+
             Console.WriteLine("Start connecting to nodes...");
             nodes.Connect();
 
