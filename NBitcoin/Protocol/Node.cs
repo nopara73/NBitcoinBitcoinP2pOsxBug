@@ -661,23 +661,18 @@ namespace NBitcoin.Protocol
             LastSeen = peer.Time;
 
             var socket = new Socket(AddressFamily.InterNetworkV6, SocketType.Stream, ProtocolType.Tcp);
-            try
-            {
-                socket.SetSocketOption(SocketOptionLevel.IPv6, SocketOptionName.IPv6Only, false);
-            
-                _Connection = new NodeConnection(this, socket);
-            
-                socket.ReceiveBufferSize = parameters.ReceiveBufferSize;
-                socket.SendBufferSize = parameters.SendBufferSize;
-            }
-            catch
-            {
-                _Connection.Cancel.Cancel();
-                Utils.SafeCloseSocket(socket);
-                DisconnectAsync();
 
-                throw;
-            }
+            socket.SetSocketOption(SocketOptionLevel.IPv6, SocketOptionName.IPv6Only, false);
+            
+            _Connection = new NodeConnection(this, socket);
+            
+            socket.ReceiveBufferSize = parameters.ReceiveBufferSize;
+            socket.SendBufferSize = parameters.SendBufferSize;
+            
+            _Connection.Cancel.Cancel();
+            Utils.SafeCloseSocket(socket);
+            DisconnectAsync();
+
             using (TraceCorrelation.Open())
             {
                 try
