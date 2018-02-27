@@ -674,6 +674,7 @@ namespace NBitcoin.Protocol
             catch(SocketException)
             {
                 Utils.SafeCloseSocket(socket);
+                throw;
             }
             using (TraceCorrelation.Open())
             {
