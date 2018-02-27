@@ -566,8 +566,9 @@ namespace NBitcoin.Protocol
 					if(ex.CancellationToken == parameters.ConnectCancellation)
 						throw;
 				}
-				catch(SocketException)
+				catch(SocketException ex)
 				{
+                    Console.WriteLine(ex);
 					parameters.ConnectCancellation.WaitHandle.WaitOne(500);
 				}
 			}
