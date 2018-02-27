@@ -666,8 +666,8 @@ namespace NBitcoin.Protocol
 			socket.SendBufferSize = 8 * 1024;
 
 			_Connection = new NodeConnection(this, socket);
-			socket.ReceiveBufferSize = parameters.ReceiveBufferSize;
-			socket.SendBufferSize = parameters.SendBufferSize;
+			//socket.ReceiveBufferSize = parameters.ReceiveBufferSize;
+			//socket.SendBufferSize = parameters.SendBufferSize;
 			using(TraceCorrelation.Open())
 			{
 				try
