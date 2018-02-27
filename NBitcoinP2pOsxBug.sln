@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBitcoinP2pOsxBug", "NBitcoinP2pOsxBug\NBitcoinP2pOsxBug.csproj", "{362BD37D-E8FD-4A95-8CF0-25D0796D6470}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NBitcoinP2pOsxBug", "NBitcoinP2pOsxBug\NBitcoinP2pOsxBug.csproj", "{362BD37D-E8FD-4A95-8CF0-25D0796D6470}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBitcoin", "NBitcoin\NBitcoin.csproj", "{7BB0D7B9-A6BA-4A1F-9C04-68B7BE98E789}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{362BD37D-E8FD-4A95-8CF0-25D0796D6470}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{362BD37D-E8FD-4A95-8CF0-25D0796D6470}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{362BD37D-E8FD-4A95-8CF0-25D0796D6470}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BB0D7B9-A6BA-4A1F-9C04-68B7BE98E789}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BB0D7B9-A6BA-4A1F-9C04-68B7BE98E789}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BB0D7B9-A6BA-4A1F-9C04-68B7BE98E789}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BB0D7B9-A6BA-4A1F-9C04-68B7BE98E789}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
