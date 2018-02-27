@@ -1079,6 +1079,7 @@ namespace NBitcoin.Protocol
 		}
 		public void DisconnectAsync(string reason, Exception exception = null)
 		{
+            Socket?.Dispose();
 			if(!IsConnected)
 				return;
 			if(Interlocked.CompareExchange(ref _Disconnecting, 1, 0) == 1)
