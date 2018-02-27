@@ -664,6 +664,8 @@ namespace NBitcoin.Protocol
 			socket.SetSocketOption(SocketOptionLevel.IPv6, SocketOptionName.IPv6Only, false);
 
 			_Connection = new NodeConnection(this, socket);
+            Console.WriteLine($"Actual Receie buffer size: {parameters.ReceiveBufferSize}");
+            Console.WriteLine($"Actual Send buffer size: {parameters.SendBufferSize}");
 			socket.ReceiveBufferSize = parameters.ReceiveBufferSize;
 			socket.SendBufferSize = parameters.SendBufferSize;
 			using(TraceCorrelation.Open())
