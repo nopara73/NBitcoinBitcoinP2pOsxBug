@@ -662,12 +662,10 @@ namespace NBitcoin.Protocol
 
 			var socket = new Socket(AddressFamily.InterNetworkV6, SocketType.Stream, ProtocolType.Tcp);
 			socket.SetSocketOption(SocketOptionLevel.IPv6, SocketOptionName.IPv6Only, false);
-			socket.ReceiveBufferSize = 8 * 1024;
-			socket.SendBufferSize = 8 * 1024;
 
 			_Connection = new NodeConnection(this, socket);
-			//socket.ReceiveBufferSize = parameters.ReceiveBufferSize;
-			//socket.SendBufferSize = parameters.SendBufferSize;
+			socket.ReceiveBufferSize = parameters.ReceiveBufferSize;
+			socket.SendBufferSize = parameters.SendBufferSize;
 			using(TraceCorrelation.Open())
 			{
 				try
