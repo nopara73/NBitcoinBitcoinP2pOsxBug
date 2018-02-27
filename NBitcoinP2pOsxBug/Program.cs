@@ -14,8 +14,8 @@ namespace NBitcoinP2pOsxBug
         {
             var connectionParameters = new NodeConnectionParameters()
             {
-                ReceiveBufferSize = 1000 * 5000,
-                SendBufferSize = 1000 * 1000
+                ReceiveBufferSize = 100 * 5000,
+                SendBufferSize = 100 * 1000
             };
 
             var addressManagerFilePath = "AddressManager.dat";
