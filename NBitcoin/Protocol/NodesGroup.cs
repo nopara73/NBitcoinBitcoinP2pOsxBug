@@ -144,7 +144,8 @@ namespace NBitcoin.Protocol
 							scope = scope ?? _Trace.Open();
 
 							NodeServerTrace.Information("Connected nodes : " + _ConnectedNodes.Count + "/" + MaximumNodeConnection);
-							var parameters = _ConnectionParameters.Clone();
+                            Console.WriteLine("Connected nodes : " + _ConnectedNodes.Count + "/" + MaximumNodeConnection);
+                            var parameters = _ConnectionParameters.Clone();
 							parameters.TemplateBehaviors.Add(new NodesGroupBehavior(this));
 							parameters.ConnectCancellation = _Disconnect.Token;
 							var addrman = AddressManagerBehavior.GetAddrman(parameters);
@@ -165,24 +166,40 @@ namespace NBitcoin.Protocol
 								timeout.CancelAfter(5000);
 								node.VersionHandshake(_Requirements, timeout.Token);
 								NodeServerTrace.Information("Node successfully connected to and handshaked");
-							}
+                                Console.WriteLine("Node successfully connected to and handshaked");
+
+                            }
 							catch(OperationCanceledException ex)
 							{
 								if(_Disconnect.Token.IsCancellationRequested)
 									break;
 								NodeServerTrace.Error("Timeout for picked node", ex);
-								if(node != null)
-									node.DisconnectAsync("Handshake timeout", ex);
-							}
+                                Console.WriteLine("Timeout for picked node", ex);
+
+                                if (node != null) {
+                                    node.DisconnectAsync("Handshake timeout", ex);
+                                    Console.WriteLine("Handshake timeout", ex);
+                                }
+
+                            }
 							catch(Exception ex)
 							{
 								NodeServerTrace.Error("Error while connecting to node", ex);
-								if(node != null)
-									node.DisconnectAsync("Error while connecting", ex);
+                                Console.WriteLine("Error while connecting to node", ex);
+
+                                if (node != null) {
+                                    node.DisconnectAsync("Error while connecting", ex);
+                                    Console.WriteLine("Error while connecting", ex);
+                                }
 							}
 
 						}
 					}
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine("Exception in StartConnecting:");
+                        Console.WriteLine(ex);
+                    }
 					finally
 					{
 						Monitor.Exit(cs);
