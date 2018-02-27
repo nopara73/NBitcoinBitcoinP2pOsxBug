@@ -660,67 +660,79 @@ namespace NBitcoin.Protocol
 			_Peer = peer;
 			LastSeen = peer.Time;
 
-			var socket = new Socket(AddressFamily.InterNetworkV6, SocketType.Stream, ProtocolType.Tcp);
-			socket.SetSocketOption(SocketOptionLevel.IPv6, SocketOptionName.IPv6Only, false);
+            var socket = new Socket(AddressFamily.InterNetworkV6, SocketType.Stream, ProtocolType.Tcp);
+            var listening = false;
+            try
+            {
+                socket.SetSocketOption(SocketOptionLevel.IPv6, SocketOptionName.IPv6Only, false);
 
-			_Connection = new NodeConnection(this, socket);
-            Console.WriteLine($"Actual Receie buffer size: {parameters.ReceiveBufferSize}");
-            Console.WriteLine($"Actual Send buffer size: {parameters.SendBufferSize}");
-			socket.ReceiveBufferSize = parameters.ReceiveBufferSize;
-			socket.SendBufferSize = parameters.SendBufferSize;
-			using(TraceCorrelation.Open())
-			{
-				try
-				{
-					var completed = new ManualResetEvent(false);
-					var args = new SocketAsyncEventArgs();
-					args.RemoteEndPoint = peer.Endpoint;
-					args.Completed += (s, a) =>
-					{
-						Utils.SafeSet(completed);
-					};
-					if(!socket.ConnectAsync(args))
-						completed.Set();
-					WaitHandle.WaitAny(new WaitHandle[] { completed, parameters.ConnectCancellation.WaitHandle });
-					parameters.ConnectCancellation.ThrowIfCancellationRequested();
-					if(args.SocketError != SocketError.Success)
-						throw new SocketException((int)args.SocketError);
-					var remoteEndpoint = (IPEndPoint)(socket.RemoteEndPoint ?? args.RemoteEndPoint);
-					_RemoteSocketAddress = remoteEndpoint.Address;
-					_RemoteSocketEndpoint = remoteEndpoint;
-					_RemoteSocketPort = remoteEndpoint.Port;
-					State = NodeState.Connected;
-					ConnectedAt = DateTimeOffset.UtcNow;
-					NodeServerTrace.Information("Outbound connection successfull");
-					if(addrman != null)
-						addrman.Attempt(Peer);
-				}
-				catch(OperationCanceledException)
-				{
-					Utils.SafeCloseSocket(socket);
-					NodeServerTrace.Information("Connection to node cancelled");
-					State = NodeState.Offline;
-					if(addrman != null)
-						addrman.Attempt(Peer);
-					throw;
-				}
-				catch(Exception ex)
-				{
-					Utils.SafeCloseSocket(socket);
-					NodeServerTrace.Error("Error connecting to the remote endpoint ", ex);
-					DisconnectReason = new NodeDisconnectReason()
-					{
-						Reason = "Unexpected exception while connecting to socket",
-						Exception = ex
-					};
-					State = NodeState.Failed;
-					if(addrman != null)
-						addrman.Attempt(Peer);
-					throw;
-				}
-				InitDefaultBehaviors(parameters);
-				_Connection.BeginListen();
-			}
+                _Connection = new NodeConnection(this, socket);
+                Console.WriteLine($"Actual Receie buffer size: {parameters.ReceiveBufferSize}");
+                Console.WriteLine($"Actual Send buffer size: {parameters.SendBufferSize}");
+                socket.ReceiveBufferSize = parameters.ReceiveBufferSize;
+                socket.SendBufferSize = parameters.SendBufferSize;
+                using (TraceCorrelation.Open())
+                {
+                    try
+                    {
+                        var completed = new ManualResetEvent(false);
+                        var args = new SocketAsyncEventArgs();
+                        args.RemoteEndPoint = peer.Endpoint;
+                        args.Completed += (s, a) =>
+                        {
+                            Utils.SafeSet(completed);
+                        };
+                        if (!socket.ConnectAsync(args))
+                            completed.Set();
+                        WaitHandle.WaitAny(new WaitHandle[] { completed, parameters.ConnectCancellation.WaitHandle });
+                        parameters.ConnectCancellation.ThrowIfCancellationRequested();
+                        if (args.SocketError != SocketError.Success)
+                            throw new SocketException((int)args.SocketError);
+                        var remoteEndpoint = (IPEndPoint)(socket.RemoteEndPoint ?? args.RemoteEndPoint);
+                        _RemoteSocketAddress = remoteEndpoint.Address;
+                        _RemoteSocketEndpoint = remoteEndpoint;
+                        _RemoteSocketPort = remoteEndpoint.Port;
+                        State = NodeState.Connected;
+                        ConnectedAt = DateTimeOffset.UtcNow;
+                        NodeServerTrace.Information("Outbound connection successfull");
+                        if (addrman != null)
+                            addrman.Attempt(Peer);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        Utils.SafeCloseSocket(socket);
+                        NodeServerTrace.Information("Connection to node cancelled");
+                        State = NodeState.Offline;
+                        if (addrman != null)
+                            addrman.Attempt(Peer);
+                        throw;
+                    }
+                    catch (Exception ex)
+                    {
+                        Utils.SafeCloseSocket(socket);
+                        NodeServerTrace.Error("Error connecting to the remote endpoint ", ex);
+                        DisconnectReason = new NodeDisconnectReason()
+                        {
+                            Reason = "Unexpected exception while connecting to socket",
+                            Exception = ex
+                        };
+                        State = NodeState.Failed;
+                        if (addrman != null)
+                            addrman.Attempt(Peer);
+                        throw;
+                    }
+                    InitDefaultBehaviors(parameters);
+                    _Connection.BeginListen();
+                    listening = true;
+                }
+            }
+            finally
+            {
+                if (!listening)
+                {
+                    socket.Dispose();
+                }
+            }
 		}
 		internal Node(NetworkAddress peer, Network network, NodeConnectionParameters parameters, Socket socket, VersionPayload peerVersion)
 		{
@@ -1079,7 +1091,6 @@ namespace NBitcoin.Protocol
 		}
 		public void DisconnectAsync(string reason, Exception exception = null)
 		{
-            Socket?.Dispose();
 			if(!IsConnected)
 				return;
 			if(Interlocked.CompareExchange(ref _Disconnecting, 1, 0) == 1)
